@@ -1,0 +1,50 @@
+.board-square {
+    width: 25px;
+    height: 25px;
+    background-color: silver;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.board-square:hover {
+    background-color: darkgrey;
+    cursor: pointer;
+}
+
+.board-row {
+
+}
+
+.locked {
+    pointer-events: none;
+}
+
+.board-title {
+    text-align: center;
+    color: crimson;
+    background-color: black;
+    font-size: 1em;
+}
+
+table#board {
+    border-collapse: collapse;
+}
+
+.square-safe {
+    background-color: forestgreen !important;
+}
+
+.square-bomb {
+    background-image: url("../assets/bomb.png");
+    background-size: contain;
+    background-color: firebrick !important;
+}
+
+.flag {
+    background-image: url("../assets/flag_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
