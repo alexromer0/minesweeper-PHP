@@ -24,15 +24,18 @@ $('#new-game-btn').click(function (event) {
 });
 
 divBoard.on('click', 'td.board-square', function (event) {
+    disableBoard();
     if (totalSeconds === 0)
         startTimer();
 
     var x = this.cellIndex + 1;
     var y = this.parentNode.rowIndex + 1;
     displaySquare(x, y);
+    enableBoard();
 });
 
 function setFlag(element) {
+    disableBoard();
     event.preventDefault();
     var x = element.cellIndex;
     var y = element.parentNode.rowIndex;
@@ -48,6 +51,7 @@ function setFlag(element) {
     }
     bombsCount.append(bombs - flags);
     game.printBoard(res);
+    enableBoard();
 }
 
 
@@ -55,17 +59,18 @@ function displaySquare(x, y) {
     var res = game.revealSquare(x, y);
     game.printBoard(res);
     if (game.voard.boom) {
-        disableBoard();
         stopTimer();
+        disableBoard();
     }
     if (game.win) {
+        stopTimer();
         alert('You Win!!');
         disableBoard();
-        stopTimer();
     }
 }
 
 function startTimer() {
+    console.log('Starting timer');
     timer = setInterval(setTime, 1000);
 }
 
@@ -76,12 +81,16 @@ function setTime() {
 }
 
 function stopTimer() {
+    console.log('Stopping timer');
     clearInterval(timer);
-    timer = null;
 }
 
 function disableBoard() {
     divBoard.find('td').addClass('locked');
+}
+
+function enableBoard() {
+    divBoard.find('td').removeClass('locked');
 }
 
 /**
