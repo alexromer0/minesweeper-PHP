@@ -1,0 +1,49 @@
+body {
+  font-family: Arial;
+  margin: 0;
+  padding: 20px;
+  background-color: azure; }
+
+.header h1 {
+  text-align: center; }
+
+.config-form {
+  display: flex;
+  align-content: space-between; }
+
+.board-square {
+  width: 25px;
+  height: 25px;
+  background-color: silver;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  text-align: center; }
+
+.board-square:hover {
+  background-color: darkgrey;
+  cursor: pointer; }
+
+.locked {
+  pointer-events: none; }
+
+.board-title {
+  text-align: center;
+  color: crimson;
+  background-color: black;
+  font-size: 1em; }
+
+table#board {
+  border-collapse: collapse; }
+
+.square-safe {
+  background-color: forestgreen !important; }
+
+.square-bomb {
+  background-size: contain;
+  background-color: firebrick !important; }
+
+.flag {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain; }
+
