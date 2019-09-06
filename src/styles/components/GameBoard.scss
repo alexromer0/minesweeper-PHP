@@ -1,0 +1,47 @@
+.game-board {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.game-board__container {
+  background-color: darkgrey;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.board-row {
+  display: inline-flex;
+}
+
+.locked {
+  pointer-events: none;
+}
+
+.board-title {
+  text-align: center;
+  color: crimson;
+  background-color: black;
+  font-size: 1em;
+}
+
+table#board {
+  border-collapse: collapse;
+}
+
+.square-safe {
+  background-color: forestgreen !important;
+}
+
+.square-bomb {
+  background-size: contain;
+  background-color: firebrick !important;
+}
+
+.flag {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}

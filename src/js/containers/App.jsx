@@ -1,15 +1,16 @@
 import React from 'react';
-import Header from '../components/Header';
 import '../../styles/index.scss';
-import SetupForm from '../components/SetupForm';
+import Header from '../components/Header';
+import MinesweeperGame from '../components/MinesweeperGame';
 
-const App = () => (
-  <div className="app">
-    <Header/>
-    <SetupForm/>
-  </div>
-);
+const App = () => {
 
-
+  return (
+    <div className="Game">
+      <Header/>
+      <MinesweeperGame/>
+    </div>
+  );
+};
 
 export default App;

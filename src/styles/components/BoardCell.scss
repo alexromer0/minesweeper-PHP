@@ -1,0 +1,13 @@
+.game-board__cell {
+  width: 25px;
+  height: 25px;
+  background-color: silver;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  text-align: center;
+}
+
+.game-board__cell:hover {
+  background-color: darkgrey;
+  cursor: pointer;
+}

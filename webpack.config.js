@@ -3,55 +3,61 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
-module.exports = {
+
+module.exports = (env, options) => {
+  const isDevelopment = options.mode === 'development';
+  return {
     entry: path.resolve(__dirname, 'src/js/index.js'),
     output: {
-        path: path.join(__dirname, '/dist'),
-        filename: "bundle.js"
+      path: path.join(__dirname, '/dist/'),
+      filename: 'bundle.js'
     },
     module: {
-        rules: [
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          exclude: [/node_modules/, /dist/],
+          use: {
+            loader: 'babel-loader'
+          }
+        },
+        {
+          test: /\.(s*)css$/,
+          use: [
             {
-                test: /\.(js|jsx)$/,
-                exclude: [/node_modules/, /dist/],
-                use: {
-                    loader: "babel-loader"
-                }
+              loader: MiniCSSExtractPlugin.loader
             },
-            {
-                test: /\.(s*)css$/,
-                use: [
-                    {
-                        loader: MiniCSSExtractPlugin.loader
-                    },
-                    'styles-loader',
-                    'sass-loader'
-                ]
-            },
-            {
-                test: /\.html$/,
-                use: {loader: 'html-loader'}
-            }
-        ]
+            'css-loader',
+            'sass-loader'
+          ]
+        },
+        {
+          test: /\.html$/,
+          use: { loader: 'html-loader' }
+        }
+      ]
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.scss'],
     },
     devServer: {
-        hot: true,
-        port: 8181,
-        watchOptions: {
-            ignored: [/node_modules/, /dist/]
-        },
+      hot: true,
+      port: 8181,
+      watchOptions: {
+        ignored: [/node_modules/, /dist/]
+      },
+      contentBase: path.join(__dirname, 'dist'),
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new MiniCSSExtractPlugin({
-            filename: '../public/assets/styles/[name].styles'
-        }),
-        new HtmlWebpackPlugin({
-            title: 'Minesweeper',
-            template: path.resolve(__dirname, 'public/index.html')
-        })
+      new webpack.HotModuleReplacementPlugin(),
+      new MiniCSSExtractPlugin({
+        filename: isDevelopment ? '[name].css' : '[name].[hash].css',
+      }),
+      new HtmlWebpackPlugin({
+        title: 'Minesweeper',
+        template: path.resolve(__dirname, 'public/index.html'),
+        filename: 'index.html'
+      })
     ]
+  };
 };

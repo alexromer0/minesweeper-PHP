@@ -1,4 +1,24 @@
 .config-form {
   display: flex;
-  align-content: space-between;
+  justify-content: center;
+}
+
+.config-form input {
+  height: 85%;
+  width: 45px;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.config-form__options {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+  background-color: #F8FA2D;
+}
+
+.btn-generate-board {
+  font-size: 12px;
+  padding: 5px;
 }
