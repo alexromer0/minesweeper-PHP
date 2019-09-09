@@ -2,46 +2,38 @@ import React from 'react';
 import SetupForm from './SetupForm';
 import GameBoard from './GameBoard';
 
-class MinesweeperGame extends React.Component {
-  state = {
-    board: {
-      bombs: 0,
-      columns: 5,
-      rows: 5
-    },
-    game: {
-      boardContent: [],
-      ready: false
-    }
-  };
+class MinesweeperGame extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      board: {
+        bombs: 0,
+        columns: 5,
+        rows: 5,
+      },
+      game: {
+        boardContent: [],
+        ready: false,
+      },
+    };
+  }
 
   handleInputChange = (evnt) => {
+    const { board } = this.state;
     this.setState({
       board: {
-        ...this.state.board,
-        [evnt.target.name]: evnt.target.value
-      }
+        ...board,
+        [evnt.target.name]: evnt.target.value,
+      },
     });
   };
 
   handleCreateGameClick = () => {
-    const rows = this.state.board.rows;
-    const cols = this.state.board.columns;
-    const bombsMax = Math.ceil((rows * cols) * 0.65);
-    const bombsMin = Math.ceil((rows * cols) * 0.25);
+    const states = this.state;
+    const bombsMax = Math.ceil((states.board.rows * states.board.columns) * 0.65);
+    const bombsMin = Math.ceil((states.board.rows * states.board.columns) * 0.25);
     const bombs = this._getRandomInteger(bombsMin, bombsMax);
-    this._startNewGame(cols, rows, bombs);
-
-    // board = new Board(x, y, bombs);
-    // game = new Game(board);
-    // flags = 0;
-    // totalSeconds = 0;
-    // stopTimer();
-    // var boardTitle = $('#board-title');
-    // var tHead = '<tr><th class="board-title" colspan="' + x + '"><span id="bombs-counter" class="bombs-counter">' + bombs + '</span> | <span id="seconds">00</span></th></tr>';
-    // boardTitle.empty();
-    // boardTitle.append(tHead);
-    // game.printBoard(game.voard.getGameBoard());
+    this._startNewGame(states.board.columns, states.board.rows, bombs);
   };
 
   _getRandomInteger = (min, max) => {
@@ -53,13 +45,15 @@ class MinesweeperGame extends React.Component {
   };
 
   _startNewGame = (cols, rows, bombs) => {
+    const { game } = this.state;
+
     if ((rows >= 5 && rows <= 15) && (cols >= 5 && cols <= 15)) {
       this.setState({
         game: {
-          ...this.state.game,
+          ...game,
           boardContent: this._generateRandomArray(cols, rows, bombs),
-          ready: true
-        }
+          ready: true,
+        },
       });
       //this.resBoard = this._createResBoard();
     } else {
@@ -68,32 +62,32 @@ class MinesweeperGame extends React.Component {
   };
 
   _generateRandomArray(cols, rows, bombs) {
-    let arr = new Array(rows);
-    let bombs_counter = 0;
+    const arr = new Array(rows);
+    let bombsCounter = 0;
     let pos = 1;
-    let rand_val = 0;
+    let randVal = 0;
     for (let i = 0; i <= rows - 1; i++) {
       arr[i] = new Array(cols);
       for (let k = 0; k <= cols - 1; k++) {
-        if (bombs_counter < bombs) {
+        if (bombsCounter < bombs) {
           // Check if there ara enough squares, if not put bombs in the rest of the squares
-          if (((cols * rows) - pos) < (bombs - bombs_counter)) {
-            rand_val = 1;
+          if (((cols * rows) - pos) < (bombs - bombsCounter)) {
+            randVal = 1;
           } else {
             // Generate random bombs
-            let randFactor = (parseInt(cols) + parseInt(rows)) - parseInt(bombs) + 2;
-            let rand = Math.floor(Math.random() * randFactor);
-            rand_val = rand === 1 ? 1 : 0;
+            const randFactor = (parseInt(cols, 10) + parseInt(rows, 10)) - parseInt(bombs, 10) + 2;
+            const rand = Math.floor(Math.random() * randFactor);
+            randVal = rand === 1 ? 1 : 0;
           }
-          bombs_counter += rand_val;
-          arr[i][k] = rand_val;
+          bombsCounter += randVal;
+          arr[i][k] = randVal;
         } else {
           arr[i][k] = 0;
         }
         pos++;
       }
       // Shufle the array
-      this._arrayShuffle(arr[i]);
+      arr[i] = this._arrayShuffle(arr[i]);
     }
     return arr;
   }
@@ -102,19 +96,24 @@ class MinesweeperGame extends React.Component {
     let j,
       x,
       i;
+    const res = [];
+
     for (i = arr.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
       x = arr[i];
-      arr[i] = arr[j];
-      arr[j] = x;
+      res[i] = arr[j];
+      res[j] = x;
     }
+    return res;
   };
 
   render() {
+    const { board } = this.state;
+    const { game } = this.state;
     return (
       <>
-        <SetupForm onChange={this.handleInputChange} onClick={this.handleCreateGameClick} gameOptions={this.state.board}/>
-        {this.state.game.ready ? <GameBoard contentArray={this.state.game.boardContent}/> : null}
+        <SetupForm onChange={this.handleInputChange} onClick={this.handleCreateGameClick} gameOptions={board}/>
+        {game.ready ? <GameBoard contentArray={game.boardContent}/> : null}
       </>
     );
   }

@@ -6,7 +6,7 @@ import MinesweeperGame from '../components/MinesweeperGame';
 const App = () => {
 
   return (
-    <div className="Game">
+    <div className='Game'>
       <Header/>
       <MinesweeperGame/>
     </div>
